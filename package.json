@@ -36,5 +36,8 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:3005"
+  "proxy": "http://localhost:3005",
+  "devDependencies": {
+    "@testing-library/react-hooks": "^7.0.2"
+  }
 }

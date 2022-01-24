@@ -7,7 +7,7 @@ const CounterRepository = () => {
         return data.result
     }
     const callDecrementService = async (num) => {
-        let result = await axios.get(`http://localhost:3000/counter/increment?num=${num}`);
+        let result = await axios.get(`http://localhost:3000/counter/decrement?num=${num}`);
         let data = result.data
         return data.result
     }

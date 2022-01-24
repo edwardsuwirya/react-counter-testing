@@ -1,5 +1,6 @@
 import { render, screen,fireEvent } from '@testing-library/react';
 import Counter from "../features/counter/Counter";
+import axios from "axios";
 
 describe('Counter Screen',()=>{
     test('counter render',()=>{

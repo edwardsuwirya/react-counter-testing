@@ -1,5 +1,6 @@
-const CounterBloc = (initVal, useCounter, counterRepository) => {
-    let {count, setCount, error, setError} = useCounter(initVal);
+const CounterBloc = (initVal, useCounter, useCounterRedux, counterRepository) => {
+    let {error, setError} = useCounter(initVal);
+    let {dispatchIncrement, dispatchDecrement, count} = useCounterRedux();
     let {
         callDecrementService,
         callIncrementService
@@ -10,7 +11,7 @@ const CounterBloc = (initVal, useCounter, counterRepository) => {
         if (result >= 3) {
             setError('Tidak boleh lebih dari 3');
         } else {
-            setCount(result);
+            dispatchIncrement(result);
         }
     }
     const handleDecrement = async () => {
@@ -18,7 +19,7 @@ const CounterBloc = (initVal, useCounter, counterRepository) => {
         if (result < 0) {
             setError('Tidak bole negatif')
         } else {
-            setCount(result)
+            dispatchDecrement(result)
         }
     }
     return {

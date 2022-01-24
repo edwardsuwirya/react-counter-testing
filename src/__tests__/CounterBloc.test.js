@@ -3,10 +3,12 @@ import CounterBloc from "../features/counter/CounterBloc";
 describe('Counter Bloc', () => {
     let counterRepositoryMock;
     let useCounterMock;
+    let useCounterReduxMock;
 
     beforeEach(() => {
         counterRepositoryMock = jest.fn();
         useCounterMock = jest.fn();
+        useCounterReduxMock = jest.fn();
     });
 
     test('Increment Handler', async () => {
@@ -18,12 +20,11 @@ describe('Counter Bloc', () => {
         );
         let setCountMock = jest.fn()
         useCounterMock.mockReturnValue({
-            count: 1,
-            setCount: setCountMock,
             error: '',
             setError: jest.fn()
         })
-        let bloc = CounterBloc(0, useCounterMock, counterRepositoryMock);
+        useCounterReduxMock.mockReturnValue({dispatchIncrement: setCountMock, dispatchDecrement: jest.fn(), count: 0})
+        let bloc = CounterBloc(0, useCounterMock, useCounterReduxMock, counterRepositoryMock);
         await bloc.handleIncrement();
         expect(setCountMock).toHaveBeenCalledWith(1)
     });
@@ -37,12 +38,11 @@ describe('Counter Bloc', () => {
         );
         let setCountMock = jest.fn()
         useCounterMock.mockReturnValue({
-            count: 1,
-            setCount: setCountMock,
             error: '',
             setError: jest.fn()
-        })
-        let bloc = CounterBloc(0, useCounterMock, counterRepositoryMock);
+        });
+        useCounterReduxMock.mockReturnValue({dispatchIncrement: jest.fn(), dispatchDecrement: setCountMock, count: 0})
+        let bloc = CounterBloc(0, useCounterMock, useCounterReduxMock, counterRepositoryMock);
         await bloc.handleDecrement();
         expect(setCountMock).toHaveBeenCalledWith(1)
     });
@@ -56,12 +56,11 @@ describe('Counter Bloc', () => {
         );
         let setErrorMock = jest.fn()
         useCounterMock.mockReturnValue({
-            count: 0,
-            setCount: jest.fn(),
             error: '',
             setError: setErrorMock
         })
-        let bloc = CounterBloc(0, useCounterMock, counterRepositoryMock);
+        useCounterReduxMock.mockReturnValue({dispatchIncrement: jest.fn(), dispatchDecrement: jest.fn(), count: 0})
+        let bloc = CounterBloc(0, useCounterMock, useCounterReduxMock, counterRepositoryMock);
         await bloc.handleIncrement();
         expect(setErrorMock).toHaveBeenCalledWith('Tidak boleh lebih dari 3')
     });
@@ -75,12 +74,12 @@ describe('Counter Bloc', () => {
         );
         let setErrorMock = jest.fn()
         useCounterMock.mockReturnValue({
-            count: 0,
             setCount: jest.fn(),
             error: '',
             setError: setErrorMock
         })
-        let bloc = CounterBloc(0, useCounterMock, counterRepositoryMock);
+        useCounterReduxMock.mockReturnValue({dispatchIncrement: jest.fn(), dispatchDecrement: jest.fn(), count: 0})
+        let bloc = CounterBloc(0, useCounterMock, useCounterReduxMock, counterRepositoryMock);
         await bloc.handleDecrement();
         expect(setErrorMock).toHaveBeenCalledWith('Tidak bole negatif')
     });

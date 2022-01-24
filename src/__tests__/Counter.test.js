@@ -14,7 +14,7 @@ describe('Counter Screen', () => {
                 handleIncrement: jest.fn()
             }
         );
-        render(<Counter initVal={0} bloc={blocMock}/>);
+        render(<Counter bloc={blocMock}/>);
         const linkElement = screen.getByText(/0/i);
         expect(linkElement).toBeInTheDocument();
     })

@@ -1,3 +1,6 @@
+import CounterOutput from "./view/CounterOutput";
+import CounterButton from "./view/CounterButton";
+
 const Counter = ({bloc}) => {
     let {
         count,
@@ -9,9 +12,9 @@ const Counter = ({bloc}) => {
 
     return (
         <div>
-            Counter = <span id="value">{count}</span><br/>
-            <button id="increment" onClick={handleIncrement}>Tambah</button>
-            <button id="decrement" onClick={handleDecrement}>Kurang</button>
+            <CounterOutput countResult={count}/>
+            <CounterButton title={"Tambah"} action={handleIncrement}/>
+            <CounterButton title={"Kurang"} action={handleDecrement}/>
             <br/>
             <span>{error}</span>
         </div>

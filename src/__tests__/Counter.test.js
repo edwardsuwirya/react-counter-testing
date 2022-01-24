@@ -27,7 +27,7 @@ describe('Counter Screen',()=>{
         // For-Loop fireEvent ?
         // Props initial value ?
         const linkElement = screen.getByText(/Tidak bole negatif/i);
-        expect(linkElement).toBeInTheDocument(linkElement);
+        expect(linkElement).toBeInTheDocument();
     });
     test('counter increment show error', () => {
         render(<Counter />);
@@ -39,7 +39,7 @@ describe('Counter Screen',()=>{
         // For-Loop fireEvent ?
         // Props initial value ?
         const linkElement = screen.getByText(/Tidak boleh lebih dari 3/i);
-        expect(linkElement).toBeInTheDocument(linkElement);
+        expect(linkElement).toBeInTheDocument();
     });
 })
 

@@ -1,10 +1,10 @@
-const Counter = ({initVal, bloc}) => {
+const Counter = ({bloc}) => {
     let {
         count,
         error,
         handleDecrement,
         handleIncrement
-    } = bloc(initVal)
+    } = bloc();
 
 
     return (

@@ -1,29 +1,24 @@
-import axios from "axios";
-import {useState} from "react";
-
-const CounterBloc = (initVal) => {
-    const [count, setCount] = useState(initVal);
-    const [error, setError] = useState('');
+const CounterBloc = (initVal, useCounter, counterRepository) => {
+    let {count, setCount, error, setError} = useCounter(initVal);
+    let {
+        callDecrementService,
+        callIncrementService
+    } = counterRepository();
 
     const handleIncrement = async () => {
-        let result = await axios.get(`http://localhost:3000/counter/increment?num=${count}`);
-        let data = result.data
-
-        if (data.result >= 3) {
+        let result = await callIncrementService(count);
+        if (result >= 3) {
             setError('Tidak boleh lebih dari 3');
         } else {
-            setCount(data.result);
+            setCount(result);
         }
-
     }
     const handleDecrement = async () => {
-        let result = await axios.get(`http://localhost:3000/counter/decrement?num=${count}`);
-        console.log(result);
-        let data = result.data;
-        if (data.result < 0) {
+        let result = await callDecrementService(count);
+        if (result < 0) {
             setError('Tidak bole negatif')
         } else {
-            setCount(data.result)
+            setCount(result)
         }
     }
     return {
@@ -34,4 +29,4 @@ const CounterBloc = (initVal) => {
     }
 }
 
-export default CounterBloc
+export default CounterBloc;

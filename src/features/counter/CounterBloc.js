@@ -12,12 +12,18 @@ const CounterBloc = (initVal, useCounter, useCounterReduxDispatch, counterReposi
         dispatchLoading();
         setError('');
         let result = await callIncrementService(count);
-        if (result >= 3) {
-            setError('Tidak boleh lebih dari 3');
-            dispatchLoading(false);
+        if (result) {
+            if (result >= 3) {
+                setError('Tidak boleh lebih dari 3');
+                dispatchLoading(false);
+            } else {
+                dispatchIncrement(result);
+            }
         } else {
-            dispatchIncrement(result);
+            setError("Server Error");
+            dispatchLoading(false);
         }
+
     }
     //Challenge, ubah code berikut dimana kalo state awal sudah 0, tidak perlu call API
     //state awal diatas 0, baru boleh call API
@@ -25,12 +31,18 @@ const CounterBloc = (initVal, useCounter, useCounterReduxDispatch, counterReposi
         dispatchLoading();
         setError('');
         let result = await callDecrementService(count);
-        if (result < 0) {
-            setError('Tidak bole negatif');
-            dispatchLoading(false);
+        if (result) {
+            if (result < 0) {
+                setError('Tidak bole negatif');
+                dispatchLoading(false);
+            } else {
+                dispatchDecrement(result)
+            }
         } else {
-            dispatchDecrement(result)
+            setError("Server Error");
+            dispatchLoading(false);
         }
+
     }
     return {
         error,

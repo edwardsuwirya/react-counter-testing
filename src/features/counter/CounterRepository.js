@@ -1,9 +1,10 @@
 import axios from "axios";
+import client from "../../shared/ApiClient";
 
 const CounterRepository = () => {
     const callIncrementService = async (num) => {
         try {
-            let result = await axios.get(`http://localhost:3000/counter/increment?num=${num}`);
+            let result = await client.get(`/increment?num=${num}`);
             let data = result.data;
             return data.result;
         } catch (e) {
@@ -13,7 +14,7 @@ const CounterRepository = () => {
     }
     const callDecrementService = async (num) => {
         try {
-            let result = await axios.get(`http://localhost:3000/counter/decrement?num=${num}`);
+            let result = await client.get(`/decrement?num=${num}`);
             let data = result.data;
             return data.result;
         } catch (e) {

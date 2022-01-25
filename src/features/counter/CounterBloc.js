@@ -1,39 +1,41 @@
-const CounterBloc = (initVal, useCounter, useCounterRedux, counterRepository) => {
+const CounterBloc = (initVal, useCounter, useCounterReduxDispatch, counterRepository) => {
     let {error, setError} = useCounter(initVal);
-    let {dispatchIncrement, dispatchDecrement, dispatchLoading, count, isLoad} = useCounterRedux();
+    let {dispatchIncrement, dispatchDecrement, dispatchLoading} = useCounterReduxDispatch();
     let {
         callDecrementService,
         callIncrementService
     } = counterRepository();
 
-    const handleIncrement = async () => {
-        dispatchLoading(true)
+    //Challenge, ubah code berikut dimana kalo state awal sudah 3, tidak perlu call API
+    //state awal dibawah 3, baru boleh call API
+    const handleIncrement = async (count) => {
+        dispatchLoading();
+        setError('');
         let result = await callIncrementService(count);
         if (result >= 3) {
             setError('Tidak boleh lebih dari 3');
-            dispatchLoading(false)
+            dispatchLoading(false);
         } else {
             dispatchIncrement(result);
-            dispatchLoading(false)
         }
     }
-    const handleDecrement = async () => {
-        dispatchLoading(true)
+    //Challenge, ubah code berikut dimana kalo state awal sudah 0, tidak perlu call API
+    //state awal diatas 0, baru boleh call API
+    const handleDecrement = async (count) => {
+        dispatchLoading();
+        setError('');
         let result = await callDecrementService(count);
         if (result < 0) {
-            setError('Tidak bole negatif')
-            dispatchLoading(false)
+            setError('Tidak bole negatif');
+            dispatchLoading(false);
         } else {
             dispatchDecrement(result)
-            dispatchLoading(false)
         }
     }
     return {
-        count,
         error,
         handleDecrement,
         handleIncrement,
-        isLoad
     }
 }
 

@@ -1,71 +1,104 @@
 import {fireEvent, render, screen} from '@testing-library/react';
 import Counter from "../features/counter/Counter";
-
+import configureMockStore from 'redux-mock-store';
+import {Provider} from "react-redux";
 describe('Counter Screen', () => {
     let blocMock;
+    let mockStore = configureMockStore()
     beforeEach(() => {
         blocMock = jest.fn();
     })
     test('counter render', () => {
+        let store = mockStore({
+            nilai: 0,
+            isLoad: false
+        })
         blocMock.mockReturnValue({
-                count: 0,
                 error: "",
                 handleDecrement: jest.fn(),
-                handleIncrement: jest.fn()
+                handleIncrement: jest.fn(),
             }
         );
-        render(<Counter bloc={blocMock}/>);
+        render(<Provider store={store}><Counter bloc={blocMock}/></Provider>);
         const linkElement = screen.getByText(/0/i);
         expect(linkElement).toBeInTheDocument();
-    })
-    test('counter increment', () => {
+    });
+    test('counter render loading', () => {
+        let store = mockStore({
+            nilai: 0,
+            isLoad: true
+        })
         blocMock.mockReturnValue({
-                count: 1,
                 error: "",
                 handleDecrement: jest.fn(),
-                handleIncrement: jest.fn()
+                handleIncrement: jest.fn(),
+                isLoad: true
             }
         );
-        render(<Counter initVal={0} bloc={blocMock}/>);
+        render(<Provider store={store}><Counter bloc={blocMock}/></Provider>);
+        const linkElement = screen.getByText(/Loading.../i);
+        expect(linkElement).toBeInTheDocument();
+    });
+    test('counter increment', () => {
+        let store = mockStore({
+            nilai: 1,
+            isLoad: false
+        })
+        blocMock.mockReturnValue({
+                error: "",
+                handleDecrement: jest.fn(),
+                handleIncrement: jest.fn(),
+            }
+        );
+        render(<Provider store={store}><Counter bloc={blocMock}/></Provider>);
         fireEvent.click(screen.getByText('Tambah'));
         const linkElement = screen.getByText(/1/i);
         expect(linkElement).toBeInTheDocument();
     });
     test('counter decrement', () => {
+        let store = mockStore({
+            nilai: 0,
+            isLoad: false
+        })
         blocMock.mockReturnValue({
-                count: 0,
                 error: "",
                 handleDecrement: jest.fn(),
-                handleIncrement: jest.fn()
+                handleIncrement: jest.fn(),
             }
         );
-        render(<Counter initVal={1} bloc={blocMock}/>);
+        render(<Provider store={store}><Counter bloc={blocMock}/></Provider>);
         fireEvent.click(screen.getByText('Kurang'));
         const linkElement = screen.getByText(/0/i);
         expect(linkElement).toBeInTheDocument();
     });
     test('counter decrement show error', () => {
+        let store = mockStore({
+            nilai: -1,
+            isLoad: false
+        })
         blocMock.mockReturnValue({
-                count: -1,
                 error: "Tidak bole negatif",
                 handleDecrement: jest.fn(),
-                handleIncrement: jest.fn()
+                handleIncrement: jest.fn(),
             }
         );
-        render(<Counter initVal={0} bloc={blocMock}/>);
+        render(<Provider store={store}><Counter bloc={blocMock}/></Provider>);
         fireEvent.click(screen.getByText('Kurang'));
         const linkElement = screen.getByText(/Tidak bole negatif/i);
         expect(linkElement).toBeInTheDocument();
     });
     test('counter increment show error', () => {
+        let store = mockStore({
+            nilai: 4,
+            isLoad: false
+        })
         blocMock.mockReturnValue({
-                count: 4,
                 error: "Tidak boleh lebih dari 3",
                 handleDecrement: jest.fn(),
-                handleIncrement: jest.fn()
+                handleIncrement: jest.fn(),
             }
         );
-        render(<Counter initVal={3} bloc={blocMock}/>);
+        render(<Provider store={store}><Counter bloc={blocMock}/></Provider>);
         fireEvent.click(screen.getByText('Tambah'));
         const linkElement = screen.getByText(/Tidak boleh lebih dari 3/i);
         expect(linkElement).toBeInTheDocument();

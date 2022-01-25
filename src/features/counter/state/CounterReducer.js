@@ -1,7 +1,8 @@
-import {COUNTER_DECREMENTED, COUNTER_INCREMENTED} from "./CounterAction";
+import {COUNTER_DECREMENTED, COUNTER_INCREMENTED, SET_LOADING} from "./CounterAction";
 
 const initialState = {
-    nilai: 0
+    nilai: 0,
+    isLoad : false
 }
 
 const counterReducer = (state = initialState, action) => {
@@ -10,6 +11,8 @@ const counterReducer = (state = initialState, action) => {
             return {...state, nilai: action.counter};
         case COUNTER_DECREMENTED:
             return {...state, nilai: action.counter};
+        case SET_LOADING:
+            return {...state, isLoad: action.isLoad}
         default:
             return state;
     }

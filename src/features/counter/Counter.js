@@ -6,10 +6,11 @@ const Counter = ({bloc}) => {
         count,
         error,
         handleDecrement,
-        handleIncrement
+        handleIncrement,
+        isLoad
     } = bloc();
 
-
+console.log(isLoad);
     return (
         <div>
             <CounterOutput countResult={count}/>
@@ -17,6 +18,8 @@ const Counter = ({bloc}) => {
             <CounterButton title={"Kurang"} action={handleDecrement}/>
             <br/>
             <span>{error}</span>
+            <br></br>
+            {isLoad ? <span>Loading...</span>:<></>}
         </div>
     )
 }

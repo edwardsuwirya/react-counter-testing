@@ -31,7 +31,8 @@ const CounterBloc = (initVal, useCounter, useCounterReduxDispatch, counterReposi
         dispatchLoading();
         setError('');
         let result = await callDecrementService(count);
-        if (result) {
+        console.log(result)
+        if (result !== null) {
             if (result < 0) {
                 setError('Tidak bole negatif');
                 dispatchLoading(false);

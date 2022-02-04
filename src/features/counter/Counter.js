@@ -1,10 +1,8 @@
 import CounterOutput from "./view/CounterOutput";
 import CounterButton from "./view/CounterButton";
-import {useSelector} from "react-redux";
+import {WithLoading} from "../../shared/WithLoading";
 
 const Counter = ({bloc}) => {
-    const isLoadSelector = state => state.isLoad;
-    const isLoad = useSelector(isLoadSelector)
     let {
         error,
         handleDecrement,
@@ -18,10 +16,9 @@ const Counter = ({bloc}) => {
             <CounterButton title={"Kurang"} action={handleDecrement}/>
             <br/>
             <span>{error}</span>
-            <br></br>
-            {isLoad ? <span>Loading...</span> : <></>}
         </div>
     )
 }
 
-export default Counter;
+const CounterWithLoading = WithLoading(Counter);
+export default CounterWithLoading;
